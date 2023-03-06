@@ -16,7 +16,8 @@ const questions = [
                 console.log('Need to input a title.');
                 return false;
             }
-        }
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -29,14 +30,8 @@ const questions = [
                 console.log('Must answer what, why, and how.');
                 return false;
             }
-          },
-          waitUserInput: true,
-    },
-    {
-        type: 'input',
-        name: 'tableOfContents',
-        message: 'If your README is long, add a table of contents to make it easy for users to find what they need.',
-        // answers are generated as links to each section
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -49,8 +44,8 @@ const questions = [
                 console.log('Must include steps for installation.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -63,11 +58,11 @@ const questions = [
                 console.log('Must include instructions and examples for use.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
     {
-        type: 'expand',// list options
+        type: 'expand',
         name: 'license',
         message: 'The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. Choose a license from the list of options.',
         choices: [
@@ -109,8 +104,8 @@ const questions = [
                 console.log('Must include instructions and examples for use.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -123,8 +118,8 @@ const questions = [
                 console.log('Must include tests and examples.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -137,8 +132,8 @@ const questions = [
                 console.log('Must include GitHub username.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
     {
         type: 'input',
@@ -151,27 +146,22 @@ const questions = [
                 console.log('Must include your email.');
                 return false;
             }
-          },
-          waitUserInput: true,
+        },
+        waitUserInput: true,
     },
-];
+]
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    return function (answers) {
-        return answers[fileName, data];
+function writeToFile (fileName, data) {
+    return fs.writeFileSync(fileName, data);
     }
-
-}
 
 // TODO: Create a function to initialize app
 function init() {
-
+    inquirer.prompt(questions).then((response) =>
+        writeToFile('./README.md', generateMarkdown({...response}))
+    );
 }
 
 // Function call to initialize app
 init();
-
-inquirer.prompt(questions).then((answers) => {
-    console.log(JSON.stringify(answers, null, '  '));
-  });
